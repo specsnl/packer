@@ -6,7 +6,7 @@ silent: true
 vars:
   # BUILDKIT_PROGRESS: plain
   # Latatest version of Hadolint: https://hub.docker.com/r/hadolint/hadolint/tags or https://github.com/hadolint/hadolint/releases
-  HADOLINT_TAG_VERSION: v2.14.0
+  HADOLINT_TAG_VERSION: v2.15.1
 
 tasks:
   packer:lint:
