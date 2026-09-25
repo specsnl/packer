@@ -15,3 +15,6 @@ COPY --from=packer /bin/packer /bin/packer
 RUN packer plugins install github.com/hashicorp/docker \
     && packer plugins install github.com/hashicorp/ansible \
     && packer plugins install github.com/UpCloudLtd/upcloud
+
+ENTRYPOINT ["/bin/packer"]
+CMD ["version"]

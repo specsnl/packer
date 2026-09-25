@@ -43,5 +43,5 @@ tasks:
         --tty
         --rm
         --volume $(pwd):/workspace
+        --entrypoint /bin/bash
         {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:latest
-        /bin/bash

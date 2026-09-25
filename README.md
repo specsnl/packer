@@ -17,10 +17,17 @@ Pulling image from GitHub Container Registry:
 docker pull ghcr.io/specsnl/packer:latest
 ```
 
+The image uses `packer` as its entrypoint (defaults to `packer version`). Running a Packer command with the current
+directory mounted:
+
+```bash
+docker run -it -v $(pwd):/workspace --rm ghcr.io/specsnl/packer:latest build .
+```
+
 Interactive shell and mounting the current directory:
 
 ```bash
-docker run -it -v $(pwd):/workspace --rm ghcr.io/specsnl/packer:latest /bin/bash
+docker run -it -v $(pwd):/workspace --rm --entrypoint /bin/bash ghcr.io/specsnl/packer:latest
 ```
 
 Default workspace: `/workspace`
