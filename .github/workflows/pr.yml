@@ -47,13 +47,3 @@ jobs:
     with:
       runs-on: ubuntu-24.04
       image-name: ghcr.io/${{ github.repository }}
-
-  check:
-    name: Check
-    runs-on: ubuntu-24.04
-    needs: [linting, build, merge]
-    if: always()
-    steps:
-      - run: exit 1
-        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
-      - run: exit 0
