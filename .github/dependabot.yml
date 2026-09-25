@@ -14,7 +14,7 @@ updates:
         patterns:
           - "specsnl/github-actions*"
   - package-ecosystem: docker
-    directory: packer
+    directory: /
     schedule:
       interval: weekly
     labels:

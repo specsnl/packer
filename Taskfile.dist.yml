@@ -4,12 +4,26 @@ version: "3"
 silent: true
 
 vars:
-  # BUILDKIT_PROGRESS: plain
+  DOCKER_REPO: ghcr.io
+  DOCKER_OWNER: specsnl
+  DOCKER_IMAGE_NAME: packer
   # Latatest version of Hadolint: https://hub.docker.com/r/hadolint/hadolint/tags or https://github.com/hadolint/hadolint/releases
   HADOLINT_TAG_VERSION: v2.15.1
 
+# env:
+#   BUILDKIT_PROGRESS: plain
+
 tasks:
-  packer:lint:
+
+  build:
+    desc: Build the Packer image
+    deps: [lint]
+    cmds:
+      - docker build
+        --tag {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:latest
+        .
+
+  lint:
     desc: Apply a Dockerfile linter (https://github.com/hadolint/hadolint)
     cmds:
       - docker run
@@ -18,18 +32,16 @@ tasks:
         hadolint/hadolint:{{.HADOLINT_TAG_VERSION}}
         hadolint
         -
-        < ./packer/Dockerfile
+        < Dockerfile
 
-  packer:build:
-    desc: Build the Packer image (includes Ansible)
-    deps: [packer:lint]
+  shell:
+    desc: Interactive shell with Packer
+    interactive: true
     cmds:
-      - docker build --file packer/Dockerfile --tag specsnl/packer:local .
-
-  packer:shell:
-    desc: Shell into a Packer docker image
-    cmds:
-      - docker run --rm --interactive --tty
-        --entrypoint ''
+      - docker run
+        --interactive
+        --tty
+        --rm
         --volume $(pwd):/workspace
-        specsnl/packer:local /bin/bash
+        {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:latest
+        /bin/bash
