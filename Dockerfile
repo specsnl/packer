@@ -2,7 +2,7 @@
 # check=error=true
 
 # Latest version: https://hub.docker.com/r/hashicorp/packer/tags?name=light
-FROM hashicorp/packer:light-1.16.0 AS packer
+FROM hashicorp/packer:light-1.16.1 AS packer
 
 # Latest version: https://github.com/specsnl/ansible/releases
 FROM ghcr.io/specsnl/ansible:1.14.0
