@@ -18,13 +18,13 @@ tasks:
         hadolint/hadolint:{{.HADOLINT_TAG_VERSION}}
         hadolint
         -
-        < ./packer/Dockerfile
+        < ./Dockerfile
 
   packer:build:
     desc: Build the Packer image (includes Ansible)
     deps: [packer:lint]
     cmds:
-      - docker build --file packer/Dockerfile --tag specsnl/packer:local .
+      - docker build --tag specsnl/packer:local .
 
   packer:shell:
     desc: Shell into a Packer docker image

@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
 
-  linting-packer:
+  linting:
     name: Linting
     runs-on: ubuntu-24.04
     steps:
@@ -23,13 +23,11 @@ jobs:
         uses: actions/checkout@v7
       - name: Hadolint
         uses: hadolint/hadolint-action@v3.5.0
-        with:
-          dockerfile: packer/Dockerfile
 
-  build-packer:
+  build:
     name: Build
     uses: specsnl/github-actions/.github/workflows/build.yml@2.4.1
-    needs: linting-packer
+    needs: linting
     strategy:
       fail-fast: false
       matrix:
@@ -42,14 +40,13 @@ jobs:
       runs-on: ${{ matrix.runs-on.os }}
       platform: ${{ matrix.runs-on.platform }}
       image-name: ghcr.io/${{ github.repository_owner }}/packer
-      dockerfile: packer/Dockerfile
       title: packer
       description: Docker Image with HashiCorp Packer and Ansible installed
 
-  merge-packer:
+  merge:
     name: Merge
     uses: specsnl/github-actions/.github/workflows/merge.yml@2.4.1
-    needs: build-packer
+    needs: build
     with:
       runs-on: ubuntu-24.04
       image-name: ghcr.io/${{ github.repository_owner }}/packer
